@@ -18,7 +18,9 @@ Ensure you have the latest version of the
 
 Create a jbossas-7 application from the code in this repository:
 
-    rhc app create -a yourapp -s -t jbossas-7 --from-code git://github.com/openshift-quickstart/torquebox-quickstart.git
+```bash
+rhc app create -a yourapp -s -t jbossas-7 --from-code https://github.com/tsungg/torquebox-quickstart.git
+```
 
 That's it! The first build will take a minute or two, so be patient.
 You should ssh to your app and run `tail_all` so you'll have something
@@ -51,16 +53,30 @@ questions.
 
 If you'd like to take advantage of zero downtime deployments provided
 by TorqueBox, you'll need to add an OpenShift-specific `hot_deploy`
-marker file to tell OpenShift not to restart TorqueBox and the
-TorqueBox-specific zero downtime deployment marker.
+marker file to tell OpenShift not to restart TorqueBox and configure 
+an action hook to touch the TorqueBox-specific zero downtime deployment 
+marker in a post_deploy action hook.
 
-    touch .openshift/markers/hot_deploy
-    git add .openshift/markers/hot_deploy
-    mkdir -p tmp
-    touch tmp/restart.txt
-    git add tmp/restart.txt
-    git commit -m "Use zero downtime deploys for the web runtime"
-    git push
+```bash
+touch .openshift/markers/hot_deploy
+git add .openshift/markers/hot_deploy
+mkdir tmp
+touch tmp/.gitkeep
+git add tmp/.gitkeep
+git commit -m "Add openshift specific hot deploy marker file and ensure torquebox hot deploy folder present"
+```
+
+And add the following to `.openshift/action_hooks/post_deploy`:
+
+```bash
+#!/bin/bash
+
+set -e
+
+touch ${OPENSHIFT_REPO_DIR}/tmp/restart.txt
+```
+
+Then add and commit this change too.
 
 Now every time you push code the TorqueBox web runtime will be
 restarted without dropping any web requests. See
@@ -68,7 +84,7 @@ http://torquebox.org/documentation/current/deployment.html#zero-downtime-redeplo
 for the different markers you can use to restart non-web runtimes.
 
 To switch back to regular deployments, remove
-`.openshift/markers/hot_deploy` and `tmp/restart.txt`, commit, and
+`.openshift/markers/hot_deploy`, `tmp/.gitkeep`, and the post_deploy action hook, then commit, and
 push the application.
 
 
