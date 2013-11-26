@@ -3,3 +3,5 @@
 set -e
 
 source $OPENSHIFT_REPO_DIR/.openshift/torquebox.sh
+
+bundle_install

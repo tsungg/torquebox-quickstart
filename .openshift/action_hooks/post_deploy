@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+touch ${OPENSHIFT_REPO_DIR}/tmp/restart.txt
