@@ -218,7 +218,7 @@
                 <protocol type="VERIFY_SUSPECT"/>
                 <protocol type="BARRIER"/>
                 <protocol type="pbcast.NAKACK2"/>
-                <protocol type="UNICAST3"/>
+                <!--<protocol type="UNICAST3"/>-->
                 <protocol type="pbcast.STABLE"/>
                 <protocol type="AUTH">
                   <property name="auth_class">org.jgroups.auth.MD5Token</property>
