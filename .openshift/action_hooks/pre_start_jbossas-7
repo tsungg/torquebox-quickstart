@@ -22,4 +22,3 @@ if [ ! -f $TORQUEBOX_HOME/$VERSION ]; then
     #db_migrate
     touch $TORQUEBOX_HOME/$VERSION
 fi
-

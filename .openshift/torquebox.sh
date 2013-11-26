@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # The version of TorqueBox to install. Should be either LATEST, an
 # official release (e.g. 2.1.3) or an incremental build number (e.g. 1594)
 VERSION=3.0.1
